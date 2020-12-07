@@ -5,24 +5,6 @@ class AntiInvit extends EventEmitter {
         this.client = client
         this.options = options
         this.cooldown = [];
-        async function checkCase(message, startAt) {
-
-        }
-        async function addCase(message, startAt) {
-            this.cooldown.push({
-                id: message.author.id,
-                guild: message.guild.id,
-                startedAt: startAt,
-            })
-
-            let index = this.cooldown.indexOf({
-                id: message.author.id,
-                startedAt: startAt
-            })
-            setTimeout(async () => {
-                this.cooldown.splice(index)
-            }, this.options.time || 10000)
-        }
         this.client.on("message", async message => {
             let startAt = Date.now();
             let exempt = false
@@ -49,17 +31,47 @@ class AntiInvit extends EventEmitter {
                     if (inv) {
                         obj.valid = true
                     }
-                    let check = await checkCase(message, startAt)
+                    let check = false
+                    let obje = this.cooldown.find(c => c.id === message.author.id && c.guild === message.guild.id)
+                    if (obje && obje.rate >= this.options.rateLimit) {
+                        check = true
+                    }
                     if (check === true && options.ban) {
-                        return await message.member.ban({reason: options.reason})
+                        return message.channel.send("je te ban")//await message.member.ban({reason: options.reason})
                     } else if (check === true && options.kick) {
-                        return await message.member.kick(options.reason)
+                        return message.channel.send("je te kick")//await message.member.kick(options.reason)
                     }
                     if (options.invalid && !obj.valid) {
-                        return addCase(message, startAt);
+                        this.cooldown.push({
+                            id: message.author.id,
+                            guild: message.guild.id,
+                            startedAt: startAt,
+                            rate: obje ? obje.rate++ : 1
+                        })
+
+                        let index = this.cooldown.indexOf({
+                            id: message.author.id,
+                            startedAt: startAt
+                        })
+                        setTimeout(async () => {
+                            this.cooldown.splice(index)
+                        }, this.options.time || 10000)
                     }
                     if (obj.valid) {
-                        return addCase(message, startAt);
+                        this.cooldown.push({
+                            id: message.author.id,
+                            guild: message.guild.id,
+                            startedAt: startAt,
+                            rate: obje ? obje.rate++ : 1
+                        })
+
+                        let index = this.cooldown.indexOf({
+                            id: message.author.id,
+                            startedAt: startAt
+                        })
+                        setTimeout(async () => {
+                            this.cooldown.splice(index)
+                        }, this.options.time || 10000)
                     }
                 }
             }
