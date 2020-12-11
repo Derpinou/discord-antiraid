@@ -15,12 +15,7 @@ class AntiInvit extends EventEmitter {
             if(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(message.content)){
                 let inv;
                 let invite = message.content.match(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/)
-                if (options.exemptMembers > 0 || options.exemptRoles > 0) {
-                    options.exemptRoles.forEach(r => {
-                        if (message.member.roles.cache.has(r)) return exempt = true
-                    })
-                    if (options.exemptMembers.includes(message.member.id)) return exempt = true
-                }
+                await this.checkExempt(message.member)
                 if (!exempt) {
                     obj.invit = true
                     try {
@@ -32,46 +27,18 @@ class AntiInvit extends EventEmitter {
                         obj.valid = true
                     }
                     let check = false
-                    let obje = this.cooldown.find(c => c.id === message.author.id && c.guild === message.guild.id)
+                    let obje = await this.search(message.member)
                     if (obje && obje.rate >= this.options.rateLimit) {
                         check = true
                     }
-                    if (check === true && options.ban) {
-                        return message.channel.send("je te ban")//await message.member.ban({reason: options.reason})
-                    } else if (check === true && options.kick) {
-                        return message.channel.send("je te kick")//await message.member.kick(options.reason)
+                    if (check === true) {
+                        return this.punish(message.member)
                     }
-                    if (options.invalid && !obj.valid) {
-                        this.cooldown.push({
-                            id: message.author.id,
-                            guild: message.guild.id,
-                            startedAt: startAt,
-                            rate: obje ? obje.rate++ : 1
-                        })
-
-                        let index = this.cooldown.indexOf({
-                            id: message.author.id,
-                            startedAt: startAt
-                        })
-                        setTimeout(async () => {
-                            this.cooldown.splice(index)
-                        }, this.options.time || 10000)
+                    if (!obj.valid && options.invalid) {
+                        await this.addCase(message.member, obje, startAt)
                     }
                     if (obj.valid) {
-                        this.cooldown.push({
-                            id: message.author.id,
-                            guild: message.guild.id,
-                            startedAt: startAt,
-                            rate: obje ? obje.rate++ : 1
-                        })
-
-                        let index = this.cooldown.indexOf({
-                            id: message.author.id,
-                            startedAt: startAt
-                        })
-                        setTimeout(async () => {
-                            this.cooldown.splice(index)
-                        }, this.options.time || 10000)
+                        await this.addCase(message.member, obje, startAt)
                     }
                 }
             }
@@ -101,6 +68,43 @@ class AntiInvit extends EventEmitter {
             }
         }
         return obj
+    }
+    async checkCase() {
+
+    }
+    async punish(member) {
+        if (this.options.ban) {
+            return member.send("je te ban")//await message.member.ban({reason: options.reason})
+        } else if (this.options.kick) {
+            return member.send("je te kick")//await message.member.kick(options.reason)
+        }
+    }
+    async addCase (member, obje, startAt) {
+        this.cooldown.push({
+            id: member.id,
+            guild: member.guild.id,
+            startedAt: startAt,
+            rate: obje ? obje.rate++ : 1
+        })
+
+        let index = this.cooldown.indexOf({
+            id: member.id,
+            startedAt: startAt
+        })
+        setTimeout(async () => {
+            this.cooldown.splice(index)
+        }, this.options.time || 10000)
+    }
+    async checkExempt (member) {
+        if (this.options.exemptMembers > 0 || this.options.exemptRoles > 0) {
+            this.options.exemptRoles.forEach(r => {
+                if (member.roles.cache.has(r)) return true
+            })
+            if (this.options.exemptMembers.includes(member.id)) return true
+        }
+    }
+    async search(member) {
+        return this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id)
     }
 }
 module.exports = AntiInvit

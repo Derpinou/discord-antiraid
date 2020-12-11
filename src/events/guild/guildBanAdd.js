@@ -4,14 +4,14 @@ module.exports = class {
     }
     async run (guild, user) {
         let exempt = false,
-            event = "guildBanAdd",
+            event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
             check = false,
             startAt = Date.now();
         if (this.client.options.exemptEvent.includes(event)) return undefined
-        guild.fetchAuditLogs({type: "MEMBER_BAN_ADD"}).then(audit => audit.entries.first()).then(async entry => {
+        guild.fetchAuditLogs({type: "MEMBER_KICK"}).then(audit => audit.entries.first()).then(async entry => {
             let member = guild.members.cache.get(entry.executor.id)
             let obje = await this.client.search(member, event);
-            exempt = await this.client.checkExempt(member)
+            exempt = await this.client.checkExempt(member, event)
             if (!exempt) {
                 check = await this.client.checkCase(member, event, obje)
                 if (check === true) {

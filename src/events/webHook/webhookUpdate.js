@@ -4,7 +4,7 @@ module.exports = class {
     }
     async run (channel) {
         let exempt = false,
-            event = "webhookUpdate",
+            event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
             check = false,
             startAt = Date.now();
         if (this.client.options.exemptEvent.includes(event)) return undefined
@@ -12,7 +12,7 @@ module.exports = class {
             channel.guild.fetchAuditLogs({type: "WEBHOOK_CREATE"}).then(audit => audit.entries.first()).then(async entry => {
                 let member = channel.guild.members.cache.get(entry.executor.id)
                 let obje = await this.client.search(member, event);
-                exempt = await this.client.checkExempt(member)
+                exempt = await this.client.checkExempt(member, event)
                 if (!exempt) {
                     check = await this.client.checkCase(member, event, obje)
                     if (check === true) {

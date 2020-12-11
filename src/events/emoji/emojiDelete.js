@@ -5,14 +5,14 @@ module.exports = class {
     }
     async run (emoji) {
         let exempt = false,
-            event = "emojiDelete",
+            event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
             check = false,
             startAt = Date.now();
         if (this.client.options.exemptEvent.includes(event)) return undefined
         emoji.guild.fetchAuditLogs({type: "EMOJI_DELETE"}).then(audit => audit.entries.first()).then(async entry => {
             let member = emoji.guild.members.cache.get(entry.executor.id)
             let obje = await this.client.search(member, event);
-            exempt = await this.client.checkExempt(member)
+            exempt = await this.client.checkExempt(member, event)
             if (!exempt) {
                 check = await this.client.checkCase(member, event, obje)
                 if (check === true) {

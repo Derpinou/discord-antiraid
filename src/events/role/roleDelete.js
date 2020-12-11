@@ -1,18 +1,17 @@
-
 module.exports = class {
     constructor(client) {
         this.client = client
     }
     async run (role) {
         let exempt = false,
-            event = "roleDelete",
+            event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
             check = false,
             startAt = Date.now();
         if (this.client.options.exemptEvent.includes(event)) return undefined
         role.guild.fetchAuditLogs({type: "ROLE_DELETE"}).then(audit => audit.entries.first()).then(async entry => {
             let member = role.guild.members.cache.get(entry.executor.id)
             let obje = await this.client.search(member, event);
-            exempt = await this.client.checkExempt(member)
+            exempt = await this.client.checkExempt(member, event)
             if (!exempt) {
                 check = await this.client.checkCase(member, event, obje)
                 if (check === true) {

@@ -55,16 +55,29 @@ class AntiRaid extends EventEmitter {
             return member.send("je te kick")//await message.member.kick(options.reason)
         }
     }
-    async checkExempt (member) {
+    async checkExempt (member, event) {
         if (this.options.exemptMembers > 0 || this.options.exemptRoles > 0) {
             this.options.exemptRoles.forEach(r => {
                 if (member.roles.cache.has(r)) return true
             })
             if (this.options.exemptMembers.includes(member.id)) return true
+            if (this.options.exemptEvent.includes(event)) return true
         }
     }
     async search(member, event) {
-        return this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
+        let search = this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
+        if (!search) {
+            search = {
+                id: member.id,
+                guild: member.guild.id,
+                event: event,
+                startedAt: Date.now(),
+                rate: 1
+            }
+            this.cooldown.push(search)
+        }
+        console.log(search)
+        return search
     }
 }
 module.exports = AntiRaid;
