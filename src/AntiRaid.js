@@ -44,7 +44,7 @@ class AntiRaid extends EventEmitter {
         }, this.options.time || 10000)
     }
     async checkCase (member, event, obje) {
-        if (obje && obje.rate >= this.options.rateLimit) {
+        if (obje && obje.rate >= this.options.rateLimit -1) {
             return true
         }
     }
@@ -66,16 +66,6 @@ class AntiRaid extends EventEmitter {
     }
     async search(member, event) {
         let search = this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
-        if (!search) {
-            search = {
-                id: member.id,
-                guild: member.guild.id,
-                event: event,
-                startedAt: Date.now(),
-                rate: 1
-            }
-            this.cooldown.push(search)
-        }
         console.log(search)
         return search
     }

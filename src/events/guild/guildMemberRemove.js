@@ -7,8 +7,8 @@ module.exports = class {
             event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
             check = false,
             startAt = Date.now();
-        if (this.client.options.exemptEvent.includes(event)) return undefined
-        m.guild.fetchAuditLogs({type: "MEMBER_BAN_ADD"}).then(audit => audit.entries.first()).then(async entry => {
+        m.guild.fetchAuditLogs({type: "MEMBER_KICK"}).then(audit => audit.entries.first()).then(async entry => {
+            if (m.id !== entry.target.id) return undefined;
             let member = m.guild.members.cache.get(entry.executor.id)
             let obje = await this.client.search(member, event);
             exempt = await this.client.checkExempt(member, event)
