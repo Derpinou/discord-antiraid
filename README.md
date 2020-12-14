@@ -15,6 +15,7 @@ Supported Events:
  webHookUpdate
  
  guildBanAdd
+guildMemberRemove
 ```
 
 List of AntiRaid Methods:
@@ -47,13 +48,27 @@ const {AntiRaid} = require('discord-antiraid');
       rate: 1
     }
     */
+
+    //Get the cooldown
+    let cooldown = antiRaid.cooldown;
+    console.log(cooldown)
+    //Add Case to Cooldown
+
     await antiRaid.addCase(member, event, obj, Date.now())
-    
+
+    //Punish Member with options defined in the constructor
     await antiRaid.punish(member)
-    
+    //Check if event/role/member are in the exempt list at options
+
     await antiRaid.checkExempt(member)
-    
-    await antiRaid.checkCase(member, event, obj)
+
+    //Check if member as ready to ban
+    let check = await antiRaid.checkCase(member, event, obj)
+    console.log(check)
+    /*
+    Output:
+        true/false
+    */
 })
 ```
 AntiInvite
@@ -86,14 +101,27 @@ const {AntiInvite} = require('discord-antiraid');
       rate: 1
     }
     */
-    await antiInvite.addCase(member, obj, Date.now())
-    
-    await antiInvite.punish(member)
-    
-    await antiInvite.checkExempt(member)
-    
-    await antiInvite.checkCase(member, event, obj)
 
+    //Get the cooldown
+    let cooldown = antiInvite.cooldown;
+    console.log(cooldown)
+    //Add Case to Cooldown
+
+    await antiInvite.addCase(member, obj, Date.now())
+    //Punish Member with options defined in the constructor
+
+    await antiInvite.punish(member)
+    //Check if event/role/member are in the exempt list at options
+
+    await antiInvite.checkExempt(member)
+    //Check if member as ready to ban
+
+    let check = await antiInvite.checkCase(member, event, obj)
+    console.log(check)
+    /*
+    Output:
+        true/false
+    */
 })
 ```
 Check Blacklist Protect-Bot API (don't working)
