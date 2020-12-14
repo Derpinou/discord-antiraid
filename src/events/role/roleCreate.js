@@ -9,7 +9,7 @@ module.exports = class {
             startAt = Date.now();
         try {
             role.guild.fetchAuditLogs({type: "ROLE_CREATE"}).then(audit => audit.entries.first()).then(async entry => {
-                if (role.id !== entry.id) return undefined;
+                if (role.id !== entry.target.id) return undefined;
                 let member = role.guild.members.cache.get(entry.executor.id),
                     obje = await this.client.search(member, event);
                 exempt = await this.client.checkExempt(member, event);

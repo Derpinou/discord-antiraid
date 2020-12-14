@@ -36,7 +36,8 @@ const {AntiRaid} = require('discord-antiraid');
         kick: true,
         exemptMembers: [],
         exemptRoles: [],
-        exemptEvent: []
+        exemptEvent: [],
+        reason: "Punis par l'antiRaid"
     })
     let member = client.guilds.cache.get("").members.cache.get(""),
     event = "guildBanAdd";
@@ -78,48 +79,52 @@ AntiInvite Methods:
 ```js
 const {AntiInvite} = require('discord-antiraid');
 
+ 
+let antiInvite = new AntiInvite(client, {
+    invalid: true,                                             
+    rateLimit: 3,                                            
+    time: 10000,                                             
+    ban: false,                                             
+    kick: true,                                       
+    exemptMembers: [],
+    exemptRoles: [],
+    reason: "Punis par l'antiInvite"
+})
+let member = client.guilds.cache.get("").members.cache.get("");
 
-(async () => {   
-    let antiInvite = new AntiInvite(client, {
-        invalid: true,                                             
-        rateLimit: 3,                                            
-        time: 10000,                                             
-        ban: false,                                             
-        kick: true,                                       
-        exemptMembers: [],
-        exemptRoles: []
-    })
-    let member = client.guilds.cache.get("").members.cache.get("");
-    
-    
-    
-    let obj = await antiInvite.search(member)
-    console.log(obj)
-    /*
-    Output:
-    {
-      id: 'XXXXXXXXXXXXXXXXXX',
-      guild: 'XXXXXXXXXXXXXXXXXX',
-      startedAt: XXXXXXXXXXXXX,
-      rate: 1
-    }
-    */
 
-    let cooldown = antiInvite.cooldown;
-    console.log(cooldown)
 
-    await antiInvite.addCase(member, obj, Date.now())
+let obj = await antiInvite.search(member)
+console.log(obj)
+/*
+Output:
+{
+  id: 'XXXXXXXXXXXXXXXXXX',
+  guild: 'XXXXXXXXXXXXXXXXXX',
+  startedAt: XXXXXXXXXXXXX,
+  rate: 1
+}
+*/
 
-    await antiInvite.punish(member)
+let cooldown = antiInvite.cooldown;
+console.log(cooldown)
 
-    await antiInvite.checkExempt(member)
+await antiInvite.addCase(member, obj, Date.now())
 
-    let check = await antiInvite.checkCase(member, event, obj)
-    console.log(check)
-    /*
-    Output:
-        true/false
-    */
+await antiInvite.punish(member)
+
+await antiInvite.checkExempt(member)
+
+let check = await antiInvite.checkCase(member, event, obj)
+console.log(check)
+/*
+Output:
+    true/false
+*/
+
+client.on("message", async (message)=> {
+    let invite = await antiInvite.checkInvit(message)
+    console.log(invite)
 })
 ```
 Check Blacklist Protect-Bot API (don't working)

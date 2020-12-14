@@ -9,7 +9,7 @@ module.exports = class {
             startAt = Date.now();
         try {
             channel.guild.fetchAuditLogs({type: "CHANNEL_CREATE"}).then(audit => audit.entries.first()).then(async entry => {
-                if (channel.id !== entry.id) return undefined;
+                if (channel.id !== entry.target.id) return undefined;
                 let member = channel.guild.members.cache.get(entry.executor.id),
                     obje = await this.client.search(member, event);
                 exempt = await this.client.checkExempt(member, event);
