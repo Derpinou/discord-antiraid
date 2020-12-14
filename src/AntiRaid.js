@@ -1,12 +1,28 @@
 const {EventEmitter} = require('events'),
-    Handler = require('./Handler');
+    {readdirSync} = require('fs'),
+    {sep} = require('path');
 class AntiRaid extends EventEmitter {
     constructor(client, options) {
         super();
         this.client = client;
         this.options = options;
         this.cooldown = [];
-        new Handler(this);
+        //Handler by Freiik: https://github.com/FreiikDev/discord-addons/blob/main/src/structures/handlersManager.js
+        let source = `${__dirname}${sep}events${sep}`;
+        readdirSync(source).forEach((dir) => {
+            if (dir[0] !== ".") {
+                readdirSync(source + dir)
+                    .filter((f) => f.endsWith(".js"))
+                    .forEach((f, i) => {
+                        try {
+                            const event = new (require(`./events/${dir}/${f}`))(this);
+                            this.client.on(f.split(".")[0], (...args) => event.run(...args));
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    });
+            }
+        });
     }
     async addCase (member, event, obje, startAt) {
         this.cooldown.push({
@@ -33,7 +49,7 @@ class AntiRaid extends EventEmitter {
         if (this.options.ban) {
             return await member.ban({reason: this.options.reason})
         } else if (this.options.kick) {
-            return await member.member.kick(this.options.reason)
+            return await member.kick(this.options.reason)
         }
     }
     async checkExempt (member, event) {
@@ -46,9 +62,7 @@ class AntiRaid extends EventEmitter {
         }
     }
     async search(member, event) {
-        let search = this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
-        console.log(search)
-        return search
+        return this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
     }
 }
 module.exports = AntiRaid;
