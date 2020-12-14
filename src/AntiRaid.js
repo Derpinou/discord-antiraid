@@ -6,8 +6,7 @@ class AntiRaid extends EventEmitter {
         this.client = client;
         this.options = options;
         this.cooldown = [];
-        this.handler = new Handler(this);
-        this.handler.load()
+        new Handler(this);
     }
     async addCase (member, event, obje, startAt) {
         this.cooldown.push({

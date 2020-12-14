@@ -1,29 +1,23 @@
-const {readdir} = require('fs')
+//Handler by Freiik: https://github.com/FreiikDev/discord-addons/blob/main/src/structures/handlersManager.js
+const {readdirSync} = require('fs'),
+    {sep} = require('path')
 class Handler {
     constructor(client) {
         this.client = client
-    }
-    load() {
-        readdir(`${__dirname}/../events`, (err, files) => {
-            if (!files) return;
-            if (err) this.client.emit("error", err);
-            for (const dir of files) {
-                readdir(`${__dirname}/../events${dir}`, (err, file) => {
-                    if (!file) return;
-                    if (err) this.client.emit("error", err);
-                    for (const evt of file) {
+        let source = `${__dirname}${sep}events${sep}`;
+        readdirSync(source).forEach((dir) => {
+            if (dir[0] !== ".") {
+                readdirSync(source + dir)
+                    .filter((f) => f.endsWith(".js"))
+                    .forEach((f, i) => {
                         try {
-                            if (!evt) return;
-                            const event = new (require(`./events/${dir}/${evt}`))(this);
-                            console.log(`${evt} chargé`);
-                            this.client.on(evt.split(".")[0], (...args) => event.run(...args));
-                        } catch (e) {
+                            this.client.on(dir, require(`./events/${dir}/${f}`));
+                        } catch (error) {
+                            console.log(error);
                         }
-                    }
-                })
+                    });
             }
         });
-        return this
     }
 }
 module.exports = Handler;
