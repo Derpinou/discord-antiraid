@@ -6,39 +6,37 @@ class AntiInvit extends EventEmitter {
         this.options = options
         this.cooldown = [];
         this.client.on("message", async message => {
-            let startAt = Date.now();
-            let exempt = false
-            let obj = {
-                invit: false,
-                valid: false
-            }
+            let startAt = Date.now(),
+                exempt = false,
+                obj = {
+                    invit: false,
+                    valid: false
+                };
             if(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(message.content)){
-                let inv;
-                let invite = message.content.match(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/)
-                await this.checkExempt(message.member)
+                let inv,
+                    invite = message.content.match(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/);
+                await this.checkExempt(message.member);
                 if (!exempt) {
-                    obj.invit = true
+                    obj.invit = true;
                     try {
-                        inv = await this.client.fetchInvite(invite[0])
+                        inv = await this.client.fetchInvite(invite[0]);
                     } catch (e) {
-                        obj.valid = false
+                        obj.valid = false;
                     }
                     if (inv) {
-                        obj.valid = true
+                        obj.valid = true;
                     }
-                    let check = false
-                    let obje = await this.search(message.member)
-                    if (obje && obje.rate >= this.options.rateLimit) {
-                        check = true
-                    }
+                    let check = false,
+                        obje = await this.search(message.member);
+                    check = await this.checkCase(message.member, obje)
                     if (check === true) {
-                        return this.punish(message.member)
+                        return this.punish(message.member);
                     }
                     if (!obj.valid && options.invalid) {
-                        await this.addCase(message.member, obje, startAt)
+                        await this.addCase(message.member, obje, startAt);
                     }
                     if (obj.valid) {
-                        await this.addCase(message.member, obje, startAt)
+                        await this.addCase(message.member, obje, startAt);
                     }
                 }
             }
@@ -48,35 +46,32 @@ class AntiInvit extends EventEmitter {
         let obj = {
             invit: false,
             valid: false
-        }
+        };
         if(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/i.test(message.content)){
             let inv;
-            obj.invit = true
-            let invite = message.content.match(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/)
+            obj.invit = true;
+            let invite = message.content.match(/(discord\.(gg|io|me|li)\/.+|discordapp\.com\/invite\/.+)/);
             try {
-                inv = await this.client.fetchInvite(invite[0])
+                inv = await this.client.fetchInvite(invite[0]);
             } catch (e) {
-                obj.valid = false
+                obj.valid = false;
             }
             if (inv) {
-                obj.valid = true
-                obj.guild = inv.guild
-                obj.channel = inv.channel
-                obj.inviter = inv.inviter
-                obj.code = inv.code
-                obj.arg = invite
+                obj.valid = true;
+                obj.guild = inv.guild;
+                obj.channel = inv.channel;
+                obj.inviter = inv.inviter;
+                obj.code = inv.code;
+                obj.arg = invite;
             }
         }
-        return obj
-    }
-    async checkCase() {
-
+        return obj;
     }
     async punish(member) {
         if (this.options.ban) {
-            return member.send("je te ban")//await message.member.ban({reason: options.reason})
+            return await member.ban({reason: this.options.reason})
         } else if (this.options.kick) {
-            return member.send("je te kick")//await message.member.kick(options.reason)
+            return await member.kick(this.options.reason)
         }
     }
     async addCase (member, obje, startAt) {
@@ -105,6 +100,11 @@ class AntiInvit extends EventEmitter {
     }
     async search(member) {
         return this.cooldown.find(c => c.id === member.id && c.guild === member.guild.id)
+    }
+    async checkCase (member, obje) {
+        if (obje && obje.rate >= this.options.rateLimit -1) {
+            return true
+        }
     }
 }
 module.exports = AntiInvit
