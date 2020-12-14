@@ -10,8 +10,8 @@ module.exports = class {
         try {
             emoji.guild.fetchAuditLogs({type: "EMOJI_DELETE"}).then(audit => audit.entries.first()).then(async entry => {
                 if (emoji.id !== entry.target.id) return undefined;
-                let member = emoji.guild.members.cache.get(entry.executor.id);
-                let obje = await this.client.search(member, event);
+                let member = emoji.guild.members.cache.get(entry.executor.id),
+                    obje = await this.client.search(member, event);
                 exempt = await this.client.checkExempt(member, event);
                 if (!exempt) {
                     check = await this.client.checkCase(member, event, obje);

@@ -1,5 +1,5 @@
 const {EventEmitter} = require('events')
-class AntiInvit extends EventEmitter {
+class AntiInvite extends EventEmitter {
     constructor(client, options) {
         super();
         this.client = client
@@ -107,4 +107,4 @@ class AntiInvit extends EventEmitter {
         }
     }
 }
-module.exports = AntiInvit
+module.exports = AntiInvite

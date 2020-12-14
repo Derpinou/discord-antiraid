@@ -24,7 +24,8 @@
     "derp",
     "link",
     "anti-link",
-    "antilink"
+    "antilink",
+    "blacklist"
   ],
   "author": "https://github.com/Derpinou",
   "license": "MIT",

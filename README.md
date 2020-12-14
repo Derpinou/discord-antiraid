@@ -25,7 +25,7 @@ Supported Events:
 guildMemberRemove
 ```
 
-List of AntiRaid Methods:
+AntiRaid Methods:
 ```js
 const {AntiRaid} = require('discord-antiraid');
 (async ()=> {
@@ -78,7 +78,7 @@ const {AntiRaid} = require('discord-antiraid');
     */
 })
 ```
-AntiInvite
+AntiInvite Methods:
 ```js
 const {AntiInvite} = require('discord-antiraid');
 
@@ -151,4 +151,10 @@ const {Blacklist} = require('discord-antiraid');
     }
     */
 })
+```
+Get package version:
+```js
+const {Version} = require('discord-antiraid');
+console.log(Version);
+//Output: 1.0.0
 ```
