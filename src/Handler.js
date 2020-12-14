@@ -4,11 +4,11 @@ class Handler {
         this.client = client
     }
     load() {
-        readdir("./src/events", (err, files) => {
+        readdir(`${__dirname}/../events`, (err, files) => {
             if (!files) return;
             if (err) this.client.emit("error", err);
             for (const dir of files) {
-                readdir(`./src/events/${dir}`, (err, file) => {
+                readdir(`${__dirname}/../events${dir}`, (err, file) => {
                     if (!file) return;
                     if (err) this.client.emit("error", err);
                     for (const evt of file) {
