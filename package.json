@@ -1,6 +1,6 @@
 {
   "name": "discord-antiraid",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Npm for protect server for Raid attacks",
   "main": "index.js",
   "scripts": {
