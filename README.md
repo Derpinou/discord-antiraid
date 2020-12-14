@@ -2,7 +2,7 @@
 [![versionBadge](https://img.shields.io/npm/v/discord-antiraid?style=for-the-badge)](https://npmjs.com/discord-antiraid)
 
 # discord-antiraid
-Npm for protect server for Raid attacks
+Npm package to protect Discord servers from Raid attacks
 
 Installation:
 ```
@@ -56,20 +56,16 @@ const {AntiRaid} = require('discord-antiraid');
     }
     */
 
-    //Get the cooldown
     let cooldown = antiRaid.cooldown;
     console.log(cooldown)
-    //Add Case to Cooldown
 
     await antiRaid.addCase(member, event, obj, Date.now())
 
-    //Punish Member with options defined in the constructor
     await antiRaid.punish(member)
-    //Check if event/role/member are in the exempt list at options
+
 
     await antiRaid.checkExempt(member)
 
-    //Check if member as ready to ban
     let check = await antiRaid.checkCase(member, event, obj)
     console.log(check)
     /*
@@ -109,19 +105,14 @@ const {AntiInvite} = require('discord-antiraid');
     }
     */
 
-    //Get the cooldown
     let cooldown = antiInvite.cooldown;
     console.log(cooldown)
-    //Add Case to Cooldown
 
     await antiInvite.addCase(member, obj, Date.now())
-    //Punish Member with options defined in the constructor
 
     await antiInvite.punish(member)
-    //Check if event/role/member are in the exempt list at options
 
     await antiInvite.checkExempt(member)
-    //Check if member as ready to ban
 
     let check = await antiInvite.checkCase(member, event, obj)
     console.log(check)
@@ -136,7 +127,7 @@ Check Blacklist Protect-Bot API (don't working)
 const {Blacklist} = require('discord-antiraid');
 
 (async () => {
-    //Check here for get Api TOKEN: http://protect-bot.fr/membre/index.php?p=api
+    //Check here to get API token: http://protect-bot.fr/membre/index.php?p=api
     let blacklist = new Blacklist("token")
     let check = await blacklist.checkBlackList("id");
     console.log(check)
@@ -156,5 +147,5 @@ Get package version:
 ```js
 const {Version} = require('discord-antiraid');
 console.log(Version);
-//Output: 1.0.0
+//Output: 1.0.2
 ```

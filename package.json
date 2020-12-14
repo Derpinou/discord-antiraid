@@ -1,7 +1,7 @@
 {
   "name": "discord-antiraid",
   "version": "1.0.2",
-  "description": "Npm for protect server for Raid attacks",
+  "description": "Npm package to protect Discord servers from Raid attacks",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
