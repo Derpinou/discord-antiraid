@@ -8,7 +8,7 @@ module.exports = class {
             check = false,
             startAt = Date.now();
         try {
-            guild.fetchAuditLogs({type: "MEMBER_KICK"}).then(audit => audit.entries.first()).then(async entry => {
+            guild.fetchAuditLogs({type: "MEMBER_BAN_ADD"}).then(audit => audit.entries.first()).then(async entry => {
                 if (user.id !== entry.target.id) return undefined;
                 let member = guild.members.cache.get(entry.executor.id),
                     obje = await this.client.search(member, event);
