@@ -1,6 +1,4 @@
 module.exports = {
-    Version: require('./package.json').version,
-    AntiInvite: require('./src/AntiInvite'),
-    Blacklist: require('./src/Blacklist'),
+    version: require('./package.json').version,
     AntiRaid: require('./src/AntiRaid')
 }
