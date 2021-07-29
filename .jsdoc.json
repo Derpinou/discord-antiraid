@@ -1,0 +1,47 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "source": {
+    "include": ["index.js", "package.json", "README.md", "src"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs|tests/)"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": true,
+    "useLongnameInNav": false,
+    "showInheritedInNav": true,
+    "default": {
+      "outputSourceFiles": false,
+      "includeDate": false
+    }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "readme": "./README.md",
+    "encoding": "utf8",
+    "private": true,
+    "recurse": true,
+    "template": "./node_modules/clean-jsdoc-theme",
+    "theme_opts": {
+      "theme": "dark",
+      "title": "discord-antiraid",
+      "menu": [
+        {
+          "title": "Github",
+          "link": "https://github.com/Derpinou/discord-antiraid",
+          "target": "_blank",
+          "class": "some-class",
+          "id": "some-id"
+        }
+      ],
+      "footer": "Made with ❤ By Derp",
+      "create_style": "nav{background: yellow} footer {background: #5865F2} body {background: #2c2f33} .pre-top-bar-container {background: #5865F2} .prettyprint.source, .prettyprint code {background-color: #23272A} .typ {color: #F6F6F6} .type-signature {color: #5865F2}"
+    }
+  }
+}
