@@ -8,14 +8,14 @@ module.exports = class {
             check = false,
             startAt = Date.now();
         try {
-            channel.guild.fetchAuditLogs({type: "CHANNEL_CREATE"}).then(audit => audit.entries.first()).then(async entry => {
+            channel.guild.fetchAuditLogs({type: this.client.actionType[event].id, limit: 10}).then(audit => audit.entries.first()).then(async entry => {
                 if (channel.id !== entry.target.id) return undefined;
                 let member = channel.guild.members.cache.get(entry.executor.id),
                     obje = await this.client.search(member, event);
                 exempt = await this.client.checkExempt(member, event);
                 if (!exempt) {
                     check = await this.client.checkCase(member, event, obje);
-                    if (check === true) {
+                    if (check) {
                         return this.client.punish(member);
                     }
                 }

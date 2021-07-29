@@ -15,7 +15,7 @@ module.exports = class {
                 exempt = await this.client.checkExempt(member, event);
                 if (!exempt) {
                     check = await this.client.checkCase(member, event, obje);
-                    if (check === true) {
+                    if (check) {
                         return this.client.punish(member);
                     }
                 }
