@@ -73,9 +73,9 @@ class AntiRaid extends EventEmitter {
      * @param {number} startAt Timestamp of Event
      */
     async addCase (member, event, obje, startAt) {
-        let options = await this.getOptionsFromDB(member.guild.id)
+        const options = await this.getOptionsFromDB(member.guild.id)
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object")
-        let cooldown = this.getCooldown(member.guild.id)
+        const cooldown = this.getCooldown(member.guild.id)
         cooldown.push({
             id: member.id,
             guild: member.guild.id,
@@ -104,7 +104,7 @@ class AntiRaid extends EventEmitter {
      * @return {boolean} Member is eligible to sanction
      */
     async checkCase (member, event, obje) {
-        let options = await this.getOptionsFromDB(member.guild.id)
+        const options = await this.getOptionsFromDB(member.guild.id)
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object")
         if (!options || !options.rateLimit) throw new Error("Cannot found options.rateLimit")
         if (obje && obje.rate >= options.rateLimit -1) {
@@ -120,7 +120,7 @@ class AntiRaid extends EventEmitter {
      * antiraid.punish(Member)
      */
     async punish(member) {
-        let options = await this.getOptionsFromDB(member.guild.id)
+        const options = await this.getOptionsFromDB(member.guild.id)
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object")
         if (!options.ban && !options.kick && !options.unrank) throw new Error("Please provide sanction between ban, kick or unrank (boolean)")
         if (options.ban) {
@@ -182,7 +182,7 @@ class AntiRaid extends EventEmitter {
      * @return boolean
      */
     async checkExempt (member, event) {
-        let options = await this.getOptionsFromDB(member.guild.id)
+        const options = await this.getOptionsFromDB(member.guild.id)
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object")
         if (!options.ban && !options.kick && !options.unrank) throw new Error("Please provide sanction between ban, kick or unrank (boolean)")
         if (options.exemptMembers.length > 0 || options.exemptRoles.length > 0) {
@@ -201,7 +201,7 @@ class AntiRaid extends EventEmitter {
      * @return {Cooldown} Member's Cases geted from cache
      */
     search(member, event) {
-        let cooldown = this.getCooldown(member.guild.id)
+        const cooldown = this.getCooldown(member.guild.id)
         return cooldown.find(c => c.id === member.id && c.guild === member.guild.id && c.event === event)
     }
 }
