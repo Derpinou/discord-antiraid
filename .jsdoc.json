@@ -30,7 +30,21 @@
     "template": "./node_modules/clean-jsdoc-theme",
     "theme_opts": {
       "theme": "dark",
-      "title": "discord-antiraid",
+      "title": "<img src='https://cdn.discordapp.com/attachments/730165562189152407/870362596459569172/DAR.png' class='DAR_logo'/>",
+      "meta" : [
+        {
+          "name": "author",
+          "content": "discord-antiraid"
+        },
+        {
+          "name": "description",
+          "content": "Discord.js extention library for protect discord servers against Raids"
+        },
+        {
+          "name": "og:image",
+          "content": "https://cdn.discordapp.com/attachments/730165562189152407/870362596459569172/DAR.png"
+        }
+      ],
       "menu": [
         {
           "title": "Github",
