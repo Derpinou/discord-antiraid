@@ -1,8 +1,7 @@
-const Discord = require('discord.js'),
-    {AntiRaid} = require('discord-antiraid'),
-    client = new Discord.Client(),
-    db = require('quick.db');
-
+const Discord = require('discord.js');
+const {AntiRaid} = require('discord-antiraid');
+const client = new Discord.Client();
+const db = require('quick.db');
 
 //Extend AntiRaid class for edit save(id: String, cooldown: []) and getOptionsFromDB(id: String) with your db methods
 class AntiRaidWithDB extends AntiRaid {
@@ -30,3 +29,5 @@ const antiraid = new AntiRaidWithDB(client, {
 antiraid.on("punish", (member, reason, sanction) => {
     member.guild.channels.cache.get(db.get(`logs_${member.guild.id}`)).send(`${member.user.username} got banned for raid attempt`)
 })
+
+client.login("SUPER_SECRET_TOKEN")
