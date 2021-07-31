@@ -27,18 +27,14 @@
     "bot",
     "package",
     "npm",
-    "derp",
-    "link",
-    "anti-link",
-    "antilink",
-    "blacklist"
+    "derp"
   ],
   "author": "https://github.com/Derpinou",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Derpinou/discord-antiraid/issues"
   },
-  "homepage": "https://github.com/Derpinou/discord-antiraid#readme",
+  "homepage": "https://discord-antiraid.js.org/",
   "dependencies": {
     "clean-jsdoc-theme": "^3.2.7",
     "discord.js": "^12.5.1"
@@ -49,5 +45,8 @@
     "jsdoc": "^3.6.4",
     "jsdoc-skyceil": "Androz2091/jsdoc-skyceil",
     "typescript": "^4.0.2"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   }
 }
