@@ -1,3 +1,5 @@
+const { Client } = require("discord.js");
+const client = new Client();
 const {AntiRaid} = require('discord-antiraid');
 
 const antiraid = new AntiRaid(client, {
@@ -15,3 +17,5 @@ const antiraid = new AntiRaid(client, {
 antiraid.on("punish", (member, reason, sanction) => {
     member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`)
 })
+
+client.login("SUPER_SECRET_TOKEN")
