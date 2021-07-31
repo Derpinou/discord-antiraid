@@ -1,6 +1,9 @@
 <div align="center">
 
-# discord-antiraid
+<a href="https://npmjs.com/discord-antiraid">
+  <img width="50%"src="https://cdn.discordapp.com/attachments/730165562189152407/870362597441011732/DAR_Banner.png" />
+</a>
+
 Discord.js extention library for protect discord servers against Raids
 
 [![downloadsBadge](https://img.shields.io/npm/dt/discord-antiraid?style=for-the-badge)](https://npmjs.com/discord-antiraid)
@@ -52,16 +55,13 @@ const antiraid = new AntiRaid(client, {
     exemptEvent: [],
     reason: "discord-antiraid"
 })
-
 ```
 Using Database (Example with [quick.db](https://www.npmjs.com/package/quick.db)):
 (Example: [here](https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/quickdb.js))
 
 ```js
-const Discord = require('discord.js'),
-    {AntiRaid} = require('discord-antiraid'),
-    client = new Discord.Client(),
-    db = require('quick.db');
+const {AntiRaid} = require('discord-antiraid');
+const db = require('quick.db');
 
 
 //Extend AntiRaid class for edit save(id: String, cooldown: []) and getOptionsFromDB(id: String) with your db methods
@@ -117,14 +117,8 @@ See Changelog [here](https://github.com/Derpinou/discord-antiraid/blob/main/CHAN
 
 
 ## - Contributors:
-<a href="https://github.com/Derpinou">
-  <img width="50px" style ="border-radius:7px;" src="https://avatars.githubusercontent.com/u/60037058?v=4" />
-</a>
-<a href="https://github.com/Sayrix">
-  <img width="50px" style ="border-radius:7px;" src="https://avatars.githubusercontent.com/u/43046854?v=4" />
-</a>
-<a href="https://github.com/Androz2091">
-  <img width="50px" style ="border-radius:7px;" src="https://avatars.githubusercontent.com/u/42497995?v=4" />
+<a href="https://github.com/Derpinou/discord-antiraid/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Derpinou/discord-antiraid" />
 </a>
 
 ## - Special Credits:
@@ -132,6 +126,7 @@ Thanks to [Androz](https://github.com/Androz2091) with his repo [discord-giveawa
 
 Thanks to [Sayrix](https://github.com/Sayrix) for making the logo and the banner
 
+Thanks to [rh](https://github.com/wh0isrh) for quickdb example
 ## - License:
 
 Licensed under the MIT license.
