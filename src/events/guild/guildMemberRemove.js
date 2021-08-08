@@ -1,16 +1,17 @@
-module.exports = class {
+const {sep} = require('path');
+module.exports = class guildMemberRemove {
     constructor(client) {
         this.client = client;
     }
-    async run (m) {
+    async run (member) {
         let exempt = false,
-            event = __filename.split(require('path').sep)[__filename.split(require('path').sep).length - 1].replace('.js', ""),
-            check = false,
+            check = false;
+        const event = __filename.split(sep)[__filename.split(sep).length - 1].replace('.js', ""),
             startAt = Date.now();
         try {
-            m.guild.fetchAuditLogs({type: "MEMBER_KICK"}).then(audit => audit.entries.first()).then(async entry => {
+            member.guild.fetchAuditLogs({type: this.client.actionType[event].id, limit: 10}).then(audit => audit.entries.first()).then(async entry => {
                 if (m.id !== entry.target.id) return undefined;
-                let member = m.guild.members.cache.get(entry.executor.id),
+                const member = m.guild.members.cache.get(entry.executor.id),
                     obje = await this.client.search(member, event);
                 exempt = await this.client.checkExempt(member, event);
                 if (!exempt) {

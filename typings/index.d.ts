@@ -45,7 +45,6 @@ declare module 'discord-antiraid' {
         public addCase(member: GuildMember, event: string, obje: Cooldown, startAt: number): void;
         public checkCase (member: GuildMember, event: string, obje: Cooldown): boolean;
         public punish(member: GuildMember): void;
-        public save(id: string, cooldownToSave: Array<Cooldown>): void;
         public getOptionsFromDB (id: string): AntiRaidOptions;
         public getCooldown(id: string): Array<Cooldown>;
         public saveCooldown(id: string, cooldownToSave: Array<Cooldown>): void;

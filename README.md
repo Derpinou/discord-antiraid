@@ -68,12 +68,6 @@ const db = require('quick.db');
 
 class AntiRaidWithDB extends AntiRaid {
 
-    //AntiRaid.save is Optional
-
-    async save(id, cooldown) {
-        db.set(`cooldown_${id}`, cooldown)
-    }
-
     //If the bot is public on several guilds and each guilds must have its own antiraid configuration
 
     async getOptionsFromDB(id) {
