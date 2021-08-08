@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Adding meta -->
+    
+    
+    <meta name="author" content="discord-antiraid" />
+    
+    <meta name="description" content="Discord.js extention library for protect discord servers against Raids" />
+    
+    <meta name="og:image" content="https://cdn.discordapp.com/attachments/730165562189152407/870362596459569172/DAR.png" />
+    
+    
+
+    <!-- Adding external script-->
+    
+
+    <!-- Adding external style-->
+    
+
+    <!-- Adding scripts-->
+    
+
+    <!-- Adding style-->
+    
+
+    <!-- Adding overlay script-->
+    
+
+    <!-- Adding overlay style-->
+    
+
+
+    <title>
+      Home
+    </title>
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/third-party/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/third-party/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/reset.css">
+    <link type="text/css" rel="stylesheet" href="styles/heading.css">
+    <link type="text/css" rel="stylesheet" href="styles/clean-jsdoc-theme-base.css">
+    <link type="text/css" rel="stylesheet" href="styles/clean-jsdoc-theme-dark.css">
+    
+    <style>
+      nav{background: yellow} footer {background: #5865F2} body {background: #2c2f33} .pre-top-bar-container {background: #5865F2} .prettyprint.source, .prettyprint code {background-color: #23272A} .typ {color: #F6F6F6} .type-signature {color: #5865F2}
+    </style>
+    
+    <svg aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="display:none">
+    <defs>
+        <symbol id="copy-icon" viewbox="0 0 488.3 488.3">
+            <g>
+                <path
+                    d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124    C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124    c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z" />
+                <path
+                    d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227    c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6    V38.6C439.65,17.3,422.35,0,401.05,0z" />
+            </g>
+        </symbol>
+        <symbol id='search-icon' viewBox="0 0 512 512">
+            <g>
+                <g>
+                    <path
+                        d="M225.474,0C101.151,0,0,101.151,0,225.474c0,124.33,101.151,225.474,225.474,225.474    c124.33,0,225.474-101.144,225.474-225.474C450.948,101.151,349.804,0,225.474,0z M225.474,409.323    c-101.373,0-183.848-82.475-183.848-183.848S124.101,41.626,225.474,41.626s183.848,82.475,183.848,183.848    S326.847,409.323,225.474,409.323z" />
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path
+                        d="M505.902,476.472L386.574,357.144c-8.131-8.131-21.299-8.131-29.43,0c-8.131,8.124-8.131,21.306,0,29.43l119.328,119.328    c4.065,4.065,9.387,6.098,14.715,6.098c5.321,0,10.649-2.033,14.715-6.098C514.033,497.778,514.033,484.596,505.902,476.472z" />
+                </g>
+            </g>
+        </symbol>
+        <symbol id="down-icon" viewBox="0 0 16 16">
+            <path 
+                fill-rule="evenodd" 
+                clip-rule="evenodd" 
+                d="M12.7803 6.21967C13.0732 6.51256 13.0732 6.98744 12.7803 7.28033L8.53033 11.5303C8.23744 11.8232 7.76256 11.8232 7.46967 11.5303L3.21967 7.28033C2.92678 6.98744 2.92678 6.51256 3.21967 6.21967C3.51256 5.92678 3.98744 5.92678 4.28033 6.21967L8 9.93934L11.7197 6.21967C12.0126 5.92678 12.4874 5.92678 12.7803 6.21967Z"
+            >
+            </path>
+        </symbol>
+    </defs>
+</svg>
+  </head>
+
+  <body>
+
+    <nav class="navbar" id="navbar">
+      <h2><a href="index.html"><img src='https://cdn.discordapp.com/attachments/730165562189152407/870362596459569172/DAR.png' class='DAR_logo'/></a></h2><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/Derpinou/discord-antiraid' class='some-class menu-link' id='some-id' target='_blank'>Github</a></li></ul><div class="accordion collapsed" id="7777309" > <h3 class="accordion-heading">Classes<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion collapsed child" id=2650753><div class="accordion-heading child"><a href="AntiRaid.html">AntiRaid</a><svg><use xlink:href="#down-icon"></use></svg></div><ul class='methods accordion-content'><li data-type='method'><a href="AntiRaid.html#addCase">addCase</a></li><li data-type='method'><a href="AntiRaid.html#checkCase">checkCase</a></li><li data-type='method'><a href="AntiRaid.html#checkExempt">checkExempt</a></li><li data-type='method'><a href="AntiRaid.html#getCooldown">getCooldown</a></li><li data-type='method'><a href="AntiRaid.html#getOptionsFromDB">getOptionsFromDB</a></li><li data-type='method'><a href="AntiRaid.html#punish">punish</a></li><li data-type='method'><a href="AntiRaid.html#saveCooldown">saveCooldown</a></li><li data-type='method'><a href="AntiRaid.html#search">search</a></li></ul></li></ul> </div><div class="accordion collapsed" id="2976399" > <h3 class="accordion-heading">Events<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="AntiRaid.html#event:punish">punish</a></li></ul> </div><div class="accordion collapsed" id="3661598" > <h3 class="accordion-heading">Global<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="global.html#AntiRaidOptions">AntiRaidOptions</a></li><li class="accordion-list" id=""><a href="global.html#CoolDown">CoolDown</a></li></ul> </div></div>
+      
+
+    </nav>
+    <div class="navbar-ham" id="navbar-ham">
+      <div>
+        <div class="first"></div>
+        <div class="second"></div>
+        <div class="third"></div>
+      </div>
+    </div>
+
+    <div id="main" class="main-content">
+      
+
+      
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><div align="center">
+<a href="https://npmjs.com/discord-antiraid">
+  <img width="50%"src="https://cdn.discordapp.com/attachments/730165562189152407/870362597441011732/DAR_Banner.png" />
+</a>
+<p>Discord.js extention library for protect discord servers against Raids</p>
+<p><a href="https://npmjs.com/discord-antiraid"><img src="https://img.shields.io/npm/dt/discord-antiraid?style=for-the-badge" alt="downloadsBadge"></a>
+<a href="https://npmjs.com/discord-antiraid"><img src="https://img.shields.io/npm/v/discord-antiraid?style=for-the-badge" alt="versionBadge"></a></p>
+<br>
+<p><a href="https://discord.gg/ahjFrbk2Nr"><img src="https://discord.com/api/guilds/848500695506223104/widget.png" alt="discord"></a>
+<a href="https://github.com/Derpinou/discord-antiraid/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Derpinou/discord-antiraid.svg" alt="GitHub license"></a></p>
+</div>
+<h2>- Installation:</h2>
+<pre class="prettyprint source"><code>
+npm i discord-antiraid
+
+</code></pre>
+<p>Supported Events:
+(If you want to Add your Own Events, Use AntiRaid Class Methods in the documentation or follow Example <a href="https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/Event.js">here</a>)</p>
+<pre class="prettyprint source lang-js"><code>    channelCreate
+    channelDelete
+ 
+    roleCreate
+    roleDelete
+ 
+    guildBanAdd
+    guildMemberRemove
+</code></pre>
+<p>Create AntiRaid:
+(Example: <a href="https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/sample.js">here</a>)</p>
+<pre class="prettyprint source lang-js"><code>const {AntiRaid} = require('discord-antiraid');
+
+const antiraid = new AntiRaid(client, {
+    rateLimit: 3,
+    time: 10000,
+    ban: true,
+    kick: false,
+    unrank: false,
+    exemptMembers: [],
+    exemptRoles: [],
+    exemptEvent: [],
+    reason: &quot;discord-antiraid&quot;
+})
+</code></pre>
+<p>Using Database (Example with <a href="https://www.npmjs.com/package/quick.db">quick.db</a>):
+(Example: <a href="https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/quickdb.js">here</a>)</p>
+<pre class="prettyprint source lang-js"><code>const {AntiRaid} = require('discord-antiraid');
+const db = require('quick.db');
+
+
+//Extend AntiRaid class for edit save(id: String, cooldown: []) and getOptionsFromDB(id: String) with your db methods
+
+class AntiRaidWithDB extends AntiRaid {
+
+    //AntiRaid.save is Optional
+
+    async save(id, cooldown) {
+        db.set(`cooldown_${id}`, cooldown)
+    }
+
+    //If the bot is public on several guilds and each guilds must have its own antiraid configuration
+
+    async getOptionsFromDB(id) {
+        return db.get(`antiraid_${id}`)
+    }
+}
+const antiraid = new AntiRaidWithDB(client, {
+    rateLimit: 3,
+    time: 10000,
+    ban: true,
+    kick: false,
+    unrank: false,
+    exemptMembers: [],
+    exemptRoles: [],
+    exemptEvent: [],
+    reason: &quot;discord-antiraid&quot;
+})
+</code></pre>
+<p>Use discord-antiraid events:</p>
+<pre class="prettyprint source lang-js"><code>antiraid.on(&quot;punish&quot;, (member, reason, sanction) => {
+    member.guild.channels.cache.get(&quot;848500695506223107&quot;).send(`${member.user.username} got banned for raid attempt`)
+})
+</code></pre>
+<p>Get package version:</p>
+<pre class="prettyprint source lang-js"><code>const {version} = require('discord-antiraid');
+console.log(version);
+//Output: 2.0.0
+</code></pre>
+<h2>- Changelog:</h2>
+<p>See Changelog <a href="https://github.com/Derpinou/discord-antiraid/blob/main/CHANGELOG.md">here</a></p>
+<h2>- Contributors:</h2>
+<a href="https://github.com/Derpinou/discord-antiraid/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Derpinou/discord-antiraid" />
+</a>
+<h2>- Special Credits:</h2>
+<p>Thanks to <a href="https://github.com/Androz2091">Androz</a> with his repo <a href="https://github.com/Androz2091/discord-giveaways">discord-giveaways</a> for doc generator and typing example</p>
+<p>Thanks to <a href="https://github.com/Sayrix">Sayrix</a> for making the logo and the banner</p>
+<p>Thanks to <a href="https://github.com/wh0isrh">rh</a> for quickdb example</p>
+<h2>- License:</h2>
+<p>Licensed under the MIT license.</p></article>
+    </section>
+
+
+
+
+
+
+    </div>
+
+    <footer class="footer" id="footer">
+      Made with ❤ By Derp
+    </footer>
+
+    <script src="scripts/third-party/prettify.js"></script>
+    <script src="scripts/third-party/lang-css.js"></script>
+    <script type="text/javascript" src="scripts/misc.js"></script>
+
+    <script>prettyPrint();</script>
+    <script src="scripts/linenumber.js"></script>
+    <script src="scripts/fix-code-block.js"></script>
+    <script src="scripts/fix-navbar.js"></script>
+    
+      <script src="scripts/search.js"></script>
+      <script src="scripts/third-party/fuse.js"></script>
+      <script>
+        var list = [{"title":"AntiRaid","link":"<a href=\"AntiRaid.html\">AntiRaid</a>"},{"title":"AntiRaid#addCase","link":"<a href=\"AntiRaid.html#addCase\">AntiRaid &rtrif; addCase</a>"},{"title":"AntiRaid#checkCase","link":"<a href=\"AntiRaid.html#checkCase\">AntiRaid &rtrif; checkCase</a>"},{"title":"AntiRaid#checkExempt","link":"<a href=\"AntiRaid.html#checkExempt\">AntiRaid &rtrif; checkExempt</a>"},{"title":"AntiRaid#getCooldown","link":"<a href=\"AntiRaid.html#getCooldown\">AntiRaid &rtrif; getCooldown</a>"},{"title":"AntiRaid#getOptionsFromDB","link":"<a href=\"AntiRaid.html#getOptionsFromDB\">AntiRaid &rtrif; getOptionsFromDB</a>"},{"title":"AntiRaid#punish","link":"<a href=\"AntiRaid.html#punish\">AntiRaid &rtrif; punish</a>"},{"title":"AntiRaid#saveCooldown","link":"<a href=\"AntiRaid.html#saveCooldown\">AntiRaid &rtrif; saveCooldown</a>"},{"title":"AntiRaid#search","link":"<a href=\"AntiRaid.html#search\">AntiRaid &rtrif; search</a>"},{"title":"punish","link":"<a href=\"AntiRaid.html#event:punish\">punish</a>"},{"title":"AntiRaidOptions","link":"<a href=\"global.html#AntiRaidOptions\">AntiRaidOptions</a>"},{"title":"CoolDown","link":"<a href=\"global.html#CoolDown\">CoolDown</a>"}];
+        var options = 
+          setupSearch(list, options)
+      </script>
+    
+
+    
+
+    
+
+    
+
+    
+
+
+  </body>
+
+</html>
