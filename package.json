@@ -1,6 +1,6 @@
 {
   "name": "discord-antiraid",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Discord.js extention library for protect discord servers against Raids",
   "main": "index.js",
   "types": "typings/index.d.ts",
@@ -47,6 +47,6 @@
     "typescript": "^4.0.2"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   }
 }
