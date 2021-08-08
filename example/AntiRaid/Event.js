@@ -18,13 +18,13 @@ client.antiraid = new AntiRaid(client, {
 
 client.on("channelCreate", async (channel) => {
     let exempt = false,
-        event = "channelCreate",
-        check = false,
+        check = false;
+    const event = "channelCreate",
         startAt = Date.now();
     try {
         channel.guild.fetchAuditLogs({type: 10, limit: 10}).then(audit => audit.entries.first()).then(async entry => {
             if (channel.id !== entry.target.id) return undefined;
-            let member = channel.guild.members.cache.get(entry.executor.id),
+            const member = channel.guild.members.cache.get(entry.executor.id),
                 obje = await client.antiraid.search(member, event);
             exempt = await client.antiraid.checkExempt(member, event);
             if (!exempt) {
