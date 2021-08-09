@@ -1,28 +1,39 @@
-const
-    Discord = require('discord.js'),
-    {EventEmitter} = require('events'),
-    {readdirSync} = require('fs'),
-    {
-        AUDIT_LOG,
-        AntiRaidOptions,
-        defaultAntiRaidOptions,
-        Cooldown
-    } = require('./Constants'),
-    {sep} = require('path');
+import {
+    Client,
+    Collection,
+    GuildMember
+} from "discord.js";
+import {EventEmitter} from "events";
+import {readdirSync} from "fs";
+import {sep} from "path";
+import {
+    AntiRaidOptions,
+    Cooldown,
+    ActionType,
+    AntiRaidEvent
+} from "./interfaces";
+import {
+    defaultAntiRaidOptions,
+    AUDIT_LOG
+} from "./Constants";
 /**
  * AntiRaid
  */
 class AntiRaid extends EventEmitter {
+    readonly client: Client;
+    options: AntiRaidOptions;
+    cooldown: Collection<string, Array<Cooldown>>
+    readonly actionType: ActionType;
     /**
-     * @param {Discord.Client} client The Discord Client
+     * @param {Client} client The Discord Client
      * @param {AntiRaidOptions} options The Antiraid options
      */
-    constructor(client, options) {
+    constructor(client: Client, options: AntiRaidOptions) {
         super();
         if (!client) throw new Error('Client is a required option.');
         /**
          * The Discord Client
-         * @type {Discord.Client}
+         * @type {Client}
          */
         this.client = client;
         /**
@@ -32,9 +43,9 @@ class AntiRaid extends EventEmitter {
         this.options = options || defaultAntiRaidOptions;
         /**
          * The Antiraid cooldown
-         * @type {Discord.Collection}
+         * @type {Collection}
          */
-        this.cooldown = new Discord.Collection();
+        this.cooldown = new Collection();
         /**
          * The Discord Audit Logs Action Type
          * @type {AUDIT_LOG}
@@ -42,81 +53,79 @@ class AntiRaid extends EventEmitter {
         this.actionType = AUDIT_LOG;
         this.init();
     }
-
     /**
      * Load Events Files and Add Events Listeners
      * @ignore
      * @private
      */
-    init() {
+    init(): void {
         readdirSync(`${__dirname}${sep}events${sep}`).forEach((dir) => {
             if (dir[0] !== ".") {
                 readdirSync(`${__dirname}${sep}events${sep}${dir}`)
                     .filter((f) => f.endsWith(".js"))
                     .forEach((f, i) => {
                         try {
-                            const event = new (require(`./events/${dir}/${f}`))(this);
-                            this.client.on(event.constructor.name, (...args) => event.run(...args));
+                            const event: AntiRaidEvent = require(`./events/${dir}/${f}`)[f.replace(".js", "")];
+                            this.client.on(event.name, event.run.bind(null, this));
                         } catch (error) {
-                            console.log(error);
+                            console.error(error);
                         }
                     });
             }
         });
     }
-
     /**
      * Add Case to Cooldown
-     * @param {Discord.GuildMember} member Discord GuildMember resolvable
+     * @param {GuildMember} member Discord GuildMember resolvable
      * @param {string} event Event Name
-     * @param {Cooldown} obje Old Cooldown
+     * @param {Cooldown} oldCase Old Cooldown object
      * @param {number} startAt Timestamp of Event
+     * @return {Promise<any>}
      */
-    async addCase (member, event, obje, startAt) {
-        const options = await this.getOptionsFromDB(member.guild.id);
+    async addCaseToCooldown (member: GuildMember, event: string, oldCase: Cooldown, startAt: number): Promise<any> {
+        const options: AntiRaidOptions = await this.getOptionsFromDB(member.guild.id);
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object");
-        const cooldown = this.getCooldown(member.guild.id);
+        const cooldown: Array<Cooldown> = this.getCooldown(member.guild.id);
         cooldown.push({
             id: member.id,
             guild: member.guild.id,
             event: event,
             startedAt: startAt,
-            rate: obje ? obje.rate++ : 1
-        })
+            rate: oldCase && oldCase.rate ? oldCase.rate++ : 1
+        });
         this.saveCooldown(member.guild.id, cooldown);
-        let index = cooldown.indexOf({
+        let index: number = cooldown.indexOf({
             id: member.id,
             startedAt: startAt
         });
         setTimeout(async () => {
             cooldown.splice(index);
-        }, options.time || 10000)
+        }, options.time || 10000);
         this.saveCooldown(member.guild.id, cooldown);
     }
-
     /**
      * Check if member is eligible to sanction
-     * @param {Discord.GuildMember} member Discord GuildMember resolvable
-     * @param {string} event Event Name
-     * @param {Cooldown} obje Cooldown
-     * @return {boolean} Member is eligible to sanction
+     * @param {GuildMember} member Discord GuildMember resolvable
+     * @param {Cooldown} caseToCheck Cooldown object to check
+     * @return {Promise<boolean>} Member is eligible to sanction
      */
-    async checkCase (member, event, obje) {
-        const options = await this.getOptionsFromDB(member.guild.id);
+    async punishable (member: GuildMember, caseToCheck: Cooldown): Promise<boolean> {
+        const options: AntiRaidOptions = await this.getOptionsFromDB(member.guild.id);
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object");
         if (!options || !options.rateLimit) throw new Error("Cannot found options.rateLimit");
-        return obje && obje.rate >= options.rateLimit -1;
+        // @ts-ignore
+        return caseToCheck && caseToCheck.rate >= options.rateLimit -1;
     }
 
     /**
-     * Ban/Kick/Unrank Member
-     * @param {Discord.GuildMember} member Discord GuildMember resolvable
-     *
+     * Ban, kick or Remove all roles of member
+     * @param {GuildMember} member Discord GuildMember resolvable
+     * @return {Promise<any>}
      * @example
      * antiraid.punish(Member)
      */
-    async punish(member) {
-        const options = await this.getOptionsFromDB(member.guild.id);
+    async punish(member: GuildMember): Promise<any> {
+        const options: AntiRaidOptions = await this.getOptionsFromDB(member.guild.id);
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object");
         if (!options.ban && !options.kick && !options.unrank) throw new Error("Please provide sanction between ban, kick or unrank (boolean)");
         if (options.ban) {
@@ -129,46 +138,60 @@ class AntiRaid extends EventEmitter {
                 member.roles.remove(role).catch(e => null);
             })
         }
+        /**
+         * Emitted when a member got punished.
+         * @event AntiRaid#punish
+         * @param {GuildMember} member Discord GuildMember resolvable
+         * @param {AntiRaidOptions.reason} reason Punishment reason
+         * @param {string} sanction Sanction type (ban|kick|unrank)
+         * @example
+         * // Print args in Console
+         *   antiraid.on("punish", (member, reason, sanction) => {
+         *       member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`)
+         *   })
+         *
+         */
         this.emit("punish", member, options.reason, options.ban ? "ban" : options.kick ? "kick" : options.unrank ? "unrank" : false);
     }
-
     /**
      * Get Guild Options from DB
      * @param {string} id Discord Guild ID
      * @return {AntiRaidOptions} AntiRaid Options get from DB
      */
-    async getOptionsFromDB (id) {
+    async getOptionsFromDB (id: string): Promise<AntiRaidOptions> {
         return this.options;
     }
-
     /**
-     * Get Cooldown Array from Cache
+     * Get Cooldown Array from Antiraid Cache
      * @param {string} id Discord Guild ID
      * @return {Array<Cooldown>}
      */
-    getCooldown (id) {
+    getCooldown (id: string): Array<Cooldown>| any {
         let cooldown = this.cooldown.get(id);
         if (!cooldown) this.cooldown.set(id, []);
-        cooldown = this.cooldown.get(id);
-        return cooldown
+        return this.cooldown.get(id);
     }
-
     /**
      * Save Cooldown Array to Cache
      * @param {string} id Discord Guild ID
      * @param {Array<Cooldown>} cooldownToSave
+     * @return {void}
      */
-    saveCooldown (id, cooldownToSave) {
+    saveCooldown (id: string, cooldownToSave: Array<Cooldown>): void {
         this.cooldown.set(id, cooldownToSave);
     }
 
     /**
      * Check If member or event is exempted or if member has exempted role
-     * @param {Discord.GuildMember} member Discord GuildMember resolvable
-     * @param {string} event Event Name
-     * @return boolean
+     * @param {GuildMember} member Discord GuildMember resolvable
+     * @param {string} [event] Event Name
+     * @return {boolean}
+     * @example
+     * let member = message.guild.members.cache.get("id");
+     * antiraid.checkExempt(member)
      */
-    async checkExempt (member, event) {
+    async checkExempt (member: GuildMember, event?: string) {
+        if (member.id === member.guild.ownerID) return true;
         const options = await this.getOptionsFromDB(member.guild.id);
         if (!options || typeof options !== "object") throw new Error("Options need to be valid object");
         if (!options.ban && !options.kick && !options.unrank) throw new Error("Please provide sanction between ban, kick or unrank (boolean)");
@@ -176,32 +199,17 @@ class AntiRaid extends EventEmitter {
             options.exemptRoles.forEach(r => {
                 if (member.roles.cache.has(r)) return true;
             })
-            if (options.exemptMembers.includes(member.id) || options.exemptEvent.includes(event)) return true
+            if (options.exemptMembers.includes(member.id) || (event && options.exemptEvent.includes(event))) return true;
         }
     }
-
     /**
      * Get Member's cases from cache
-     * @param {Discord.GuildMember} member Discord GuildMember resolvable
+     * @param {GuildMember} member Discord GuildMember resolvable
      * @param {string} event Event Name
-     * @return {Cooldown} Member's Cases geted from cache
+     * @return {Cooldown} Member's Cases fetched from cache
      */
-    search(member, event) {
-        return this.getCooldown(member.guild.id).find(c => c.id === member.id && c.guild === member.guild.id && c.event === event);
+    search(member: GuildMember, event: string): Cooldown | any {
+        return this.getCooldown(member.guild.id).find((c: Cooldown) => c.id === member.id && c.guild === member.guild.id && c.event === event);
     }
 }
-/**
- * Emitted when a member got punished.
- * @event AntiRaid#punish
- * @param {Discord.GuildMember} member Discord GuildMember resolvable
- * @param {AntiRaidOptions.reason} reason Punishment reason
- * @param {string} sanction Sanction type (ban|kick|unrank)
- * @example
- * // Print args in Console
- *   antiraid.on("punish", (member, reason, sanction) => {
- *       member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`)
- *   })
- *
-
- */
-module.exports = AntiRaid;
+export { AntiRaid };
