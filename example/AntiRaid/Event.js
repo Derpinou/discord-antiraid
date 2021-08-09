@@ -13,7 +13,7 @@ client.antiraid = new AntiRaid(client, {
     exemptRoles: [],
     exemptEvent: [],
     reason: "discord-antiraid"
-})
+});
 
 
 client.on("channelCreate", async (channel) => {
@@ -28,18 +28,18 @@ client.on("channelCreate", async (channel) => {
                 obje = await client.antiraid.search(member, event);
             exempt = await client.antiraid.checkExempt(member, event);
             if (!exempt) {
-                check = await client.antiraid.checkCase(member, event, obje);
+                check = await client.antiraid.punishable(member, event, obje);
                 if (check) {
                     return client.antiraid.punish(member);
                 }
             }
-            await client.antiraid.addCase(member, event, obje, startAt);
+            await client.antiraid.addCaseToCooldown(member, event, obje, startAt);
         });
-    } catch (e) {}
+    } catch (e) {console.error(e)}
 })
 
 client.antiraid.on("punish", (member, reason, sanction) => {
-    member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`)
+    member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`);
 })
 
-client.login("SUPER_SECRET_TOKEN")
+client.login("SUPER_SECRET_TOKEN");
