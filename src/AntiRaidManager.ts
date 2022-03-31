@@ -25,15 +25,7 @@ export class AntiRaidManager extends EventEmitter {
 			}
 		});
 		this._handleEvents().catch(console.error);
-
-		/*
-		this._request.get('/guilds/834544848039968770').then(res => {
-			console.log(res.data);
-		});
-
-		 */
 	}
-
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	on<U extends keyof AntiraidManagerEvents>(
