@@ -1,6 +1,6 @@
 {
   "name": "discord-antiraid",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Discord.js extention library for protect discord servers against Raids",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
