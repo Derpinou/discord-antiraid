@@ -1,17 +1,21 @@
 {
   "name": "discord-antiraid",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Discord.js extention library for protect discord servers against Raids",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib/"
   ],
+  "eslintIgnore": [
+    "lib/*",
+    "node_modules/*",
+    "test/*"
+  ],
   "scripts": {
-    "test": "node example/AntiRaid/sample.js",
+    "start:dev": "tsc && node test/index.js",
     "build": "tsc",
-    "lint": "tslint -p tsconfig.json",
-    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -35,17 +39,18 @@
   "bugs": {
     "url": "https://github.com/Derpinou/discord-antiraid/issues"
   },
-  "homepage": "https://discord-antiraid.js.org/",
-  "dependencies": {
-    "clean-jsdoc-theme": "^3.2.7",
-    "discord.js": "^12.5.1"
-  },
+  "homepage": "https://github.com/Derpinou/discord-antiraid/",
   "devDependencies": {
     "@types/node": "^14.0.5",
     "@types/ws": "^7.4.7",
-    "discord.js": "^12.5.1",
-    "jsdoc": "^3.6.4",
-    "jsdoc-skyceil": "Androz2091/jsdoc-skyceil",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "discord.js": "^13.6.0",
+    "eslint": "^8.12.0",
     "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "discord-api-types": "^0.30.0"
   }
 }
