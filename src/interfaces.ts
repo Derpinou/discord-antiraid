@@ -1,35 +1,46 @@
-import {AntiRaid} from "./Antiraid";
-
-export interface AntiRaidOptions {
-    rateLimit: number
-    time: number
-    ban: boolean
-    kick: boolean
-    unrank: boolean
-    exemptMembers: Array<string>
-    exemptRoles: Array<string>
-    exemptEvent: Array<string>
-    reason: string
+export interface AntiRaidManagerOptions {
+    enabled: boolean;
+    events: EventsNames[];
+    exemptedUsers: string[];
+    exemptedRoles: string[];
+    rateLimit: number;
+    time: number;
+    sanction: sanctionType;
+    reason: string;
 }
 
-export interface Cooldown {
-    id?: string;
-    guild?: string;
-    event?: string;
-    startedAt?: number;
-    rate?: number;
-}
+export type EventsNames =
+    'channelCreate'
+    | 'channelDelete'
+    | 'guildBanAdd'
+    | 'guildBanRemove'
+    | 'roleCreate'
+    | 'roleDelete'
+    | 'threadCreate'
+    | 'guildMemberRemove'
+    | 'threadDelete';
 
-interface ActionTypeObject {
-    id: number;
-    name: string;
-}
-type djsEvents = 'channelCreate'|'channelDelete'|'guildBanAdd'|'guildMemberRemove'|'roleCreate'|'roleDelete';
+
 export type ActionType = {
-    [key in djsEvents]: ActionTypeObject;
+    [key in EventsNames]: number;
 };
 
-export interface AntiRaidEvent {
-    name: string;
-    run: (client: AntiRaid, ...args: any[]) => Promise<void>;
+export type sanctionType =
+    'ban'
+    | 'kick'
+    | 'removeAllRoles';
+
+
+export interface Case {
+    user: string;
+    guild: string;
+    event: string;
+    startedAt: number;
+    rate: number;
+}
+
+export interface AntiraidManagerEvents {
+    'addcase' :  (memberId: string, guildId: string, event: string, oldCase: Case) => void;
+    'sanction' :  (memberId: string, guildId: string) => void;
+    'error' :  (error: string) => void;
 }

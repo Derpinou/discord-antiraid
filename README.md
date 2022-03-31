@@ -35,75 +35,39 @@ Supported Events:
     roleDelete
  
     guildBanAdd
+    guildBanRemove
     guildMemberRemove
+
+    threadCreate
+    threadDelete
+
 ```
 
 Create AntiRaid:
 (Example: [here](https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/sample.js))
 
 ```js
-const {AntiRaid} = require('discord-antiraid');
+const {AntiraidManager} = require('discord-antiraid');
 
-const antiraid = new AntiRaid(client, {
-    rateLimit: 3,
-    time: 10000,
-    ban: true,
-    kick: false,
-    unrank: false,
-    exemptMembers: [],
-    exemptRoles: [],
-    exemptEvent: [],
-    reason: "discord-antiraid"
+const antiraid = new AntiraidManager(client, {
+    enabled: true,
+    events: [
+        "channelCreate",
+        "channelDelete",
+        "roleCreate",
+        "roleDelete",
+        "threadCreate",
+        "threadDelete",
+    ],
+    exemptedRoles: [], // Ignored roles (ex: ['848500766955405332'])
+    exemptedUsers: [], // Ignored users (ex: ['555429540613062656'])
+    rateLimit: 2, // Number of events before sanction
+    time: 30000, // Time in ms before case deletion
+    sanction: 'removeAllRoles', // Sanction to apply (ex: 'removeAllRoles' / 'ban' / 'kick')
+    reason: 'discord-antiraid' // Audit Log Reason
 })
 ```
 Using Database (Example with [quick.db](https://www.npmjs.com/package/quick.db)):
-(Example: [here](https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/quickdb.js))
-
-```js
-const {AntiRaid} = require('discord-antiraid');
-const db = require('quick.db');
-
-
-//Extend AntiRaid class for edit save(id: String, cooldown: []) and getOptionsFromDB(id: String) with your db methods
-
-class AntiRaidWithDB extends AntiRaid {
-
-    //If the bot is public on several guilds and each guilds must have its own antiraid configuration
-
-    async getOptionsFromDB(id) {
-        return db.get(`antiraid_${id}`)
-    }
-}
-const antiraid = new AntiRaidWithDB(client, {
-    rateLimit: 3,
-    time: 10000,
-    ban: true,
-    kick: false,
-    unrank: false,
-    exemptMembers: [],
-    exemptRoles: [],
-    exemptEvent: [],
-    reason: "discord-antiraid"
-})
-```
-
-
-
-
-Use discord-antiraid events:
-
-```js
-antiraid.on("punish", (member, reason, sanction) => {
-    member.guild.channels.cache.get("848500695506223107").send(`${member.user.username} got banned for raid attempt`)
-})
-```
-
-Get package version:
-```js
-const {version} = require('discord-antiraid');
-console.log(version);
-//Output: 2.0.0
-```
 
 ## - Changelog:
 
@@ -120,7 +84,6 @@ Thanks to [Androz](https://github.com/Androz2091) with his repo [discord-giveawa
 
 Thanks to [Sayrix](https://github.com/Sayrix) for making the logo and the banner
 
-Thanks to [rh](https://github.com/wh0isrh) for quickdb example
 ## - License:
 
 Licensed under the MIT license.

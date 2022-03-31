@@ -1,15 +1,19 @@
 ## Change Log
 
-### In version 2.0.0
+### In version 3.0.0
 ##### -Add:
-* Typings
-* [Docs](https://discord-antiraid.js.org)
-* Add JsDocs
-* Add Database Support
+* Discord.js v13.x support
+* Threads and MemberKick events
+* eslint configuration for better code quality
+
 ##### -Remove:
-* Remove Emojis Event (When user bulk create emoji discord-antiraid detect raid)
-* Remove Blacklist & AntiInvite Class
+* Docs
+* Useless things
+* 
 
 ##### -Other:
-* Code Optimisation
+* Code optimization
+* Requests optimization
+* Rewriting the lib
+* Remade event's handler
 
