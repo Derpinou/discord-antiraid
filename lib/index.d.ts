@@ -1,0 +1,1 @@
+export { AntiRaidManager } from './src/AntiRaidManager';
