@@ -47,9 +47,9 @@ Create AntiRaid:
 (Example: [here](https://github.com/Derpinou/discord-antiraid/blob/main/example/AntiRaid/sample.js))
 
 ```js
-const {AntiraidManager} = require('discord-antiraid');
+const {AntiRaidManager} = require('discord-antiraid');
 
-const antiraid = new AntiraidManager(client, {
+const antiraid = new AntiRaidManager(client, {
     enabled: true,
     events: [
         "channelCreate",
