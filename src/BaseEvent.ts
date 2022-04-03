@@ -46,7 +46,6 @@ export abstract class BaseEvent {
 		if (!auditLogsRequest) return undefined;
 
 		if (auditLogsRequest.audit_log_entries[0].target_id !== targetId) return undefined;
-		console.log(1);
 
 		if (this.checkUser(options, auditLogsRequest.audit_log_entries[0].user_id as string)) return undefined;
 
@@ -70,6 +69,7 @@ export abstract class BaseEvent {
 				return this._manager.removeRoles(guildId, member.id, options.reason);
 			}
 		}
+
 		return this._manager.addCase(options, member.user.id, member.guild.id, event, startAt, oldCase as Case);
 	}
 }
