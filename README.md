@@ -4,7 +4,7 @@
   <img width="50%"src="https://cdn.discordapp.com/attachments/730165562189152407/870362597441011732/DAR_Banner.png" />
 </a>
 
-Discord.js extention library for protect discord servers against Raids
+Discord.js extention library for protecting discord servers against Raids
 
 [![downloadsBadge](https://img.shields.io/npm/dt/discord-antiraid?style=for-the-badge)](https://npmjs.com/discord-antiraid)
 [![versionBadge](https://img.shields.io/npm/v/discord-antiraid?style=for-the-badge)](https://npmjs.com/discord-antiraid)
